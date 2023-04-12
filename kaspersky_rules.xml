@@ -1,0 +1,25 @@
+<!-- 
+kaspersky security center rule
+made by: smoking_sn4ke
+
+this only captures the the GNRL_EV_OBJECT_NOTCURED and GNRL_EV_VIRUS_FOUND there are more alerts signatures from Kaspersky Endpoint Protection
+-->
+
+<group name="kasperky_rule_active,">
+    <rule id="666001" level="2">
+        <decoded_as>kaspersky-ksc</decoded_as>
+        <description>Kaspersky Security Center Alert</description>
+    </rule>
+    
+    <rule id="666002" level="10">
+        <if_sid>666001</if_sid>
+        <field name="detection_type">GNRL_EV_VIRUS_FOUND</field>
+        <description>Malware ($malware_type) found on host:$(infected_ip) triggered by user: $(initiator_user) on path:$(file_path)</description>
+    </rule>
+    <rule id="666003" level="15">
+        <if_sid>666001</if_sid>
+        <field name="detection_type">GNRL_EV_OBJECT_NOTCURED</field>
+        <description>Malware $(malware_type) not cured on host: "$(infected_ip)" triggered by user: "$(initiator_user)" on path: "$(file_path)"
+        sha256 signature: "$(sha256_sig)"</description>
+    </rule>
+</group>
